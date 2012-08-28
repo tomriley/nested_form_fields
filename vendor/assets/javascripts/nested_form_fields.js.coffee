@@ -17,10 +17,13 @@ jQuery ->
     $child_templates.each () ->
       $child = $(this)
       $child.replaceWith($("<script id='#{$child.attr('id')}' type='text/html' />").html($child.html()))
-
-    $template.before( $parsed_template )
+    
+    e = $.Event('add')
+    $link.trigger(e)
+    unless e.isDefaultPrevented()
+      $template.before( $parsed_template )
+      $link.trigger('added', $parsed_template)
     false
-
 
   $('body').on 'click', '.remove_nested_fields_link', ->
     $link = $(this)
